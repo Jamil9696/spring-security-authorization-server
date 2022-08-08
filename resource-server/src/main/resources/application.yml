@@ -1,0 +1,38 @@
+server:
+  port: 3000
+
+spring:
+ # security:
+ #   oauth2:
+ #       resourceserver:
+ #         jwt:
+ #           issuer-uri: http://localhost:9000
+
+  application:
+    name: resource-server
+  profiles:
+    active: ${SPRING_PROFILE:default}
+
+  datasource:
+    username: user
+    password: password
+    url: jdbc:postgresql://localhost:5433/resource_db
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    default-schema: public
+    schemas: public
+    user: ${DATABASE_USER:user}
+    password: ${DATABASE_USER_PW:password}
+    locations: classpath:${FLYWAY_LOCATION:/db/migration,/db/data}
+
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+

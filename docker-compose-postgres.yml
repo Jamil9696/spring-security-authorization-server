@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+
+
+  authorization-server-db:
+    image: postgres:11-alpine
+    container_name: authorization-server-db
+    restart: always
+    environment:
+      POSTGRES_DB: resource_user
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: superSecretPassword
+    ports:
+      - '5432:5432'
+    volumes:
+      - test-project-postgres:/var/lib/postgresql/data
+
+  resource-server-db:
+    image: postgres:11-alpine
+    container_name: resource-server-db
+    restart: always
+    environment:
+        POSTGRES_DB: resource_db
+        POSTGRES_USER: user
+        POSTGRES_PASSWORD: password
+    ports:
+        - '5433:5432'
+    volumes:
+        - resource-server-postgres:/var/lib/postgresql/data
+
+volumes:
+  test-project-postgres:
+    driver: local
+  resource-server-postgres:
+    driver: local
