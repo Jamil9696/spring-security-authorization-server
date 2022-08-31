@@ -14,7 +14,7 @@ CREATE TABLE public.authority(
     constraint authority_pk PRIMARY KEY ( authority_id )
 );
 
-CREATE TABLE public.registered_client(
+CREATE TABLE public.oauth2_registered_client(
     scope_id BIGSERIAL,
     scope_name varchar(40),
     id varchar(100) NOT NULL,
@@ -48,24 +48,17 @@ CREATE TABLE public.role_management(
     role_management_id BIGSERIAL,
     user_id BIGINT,
     authority_id BIGINT,
-    scope_id BIGINT,
     constraint role_management_pk PRIMARY KEY ( role_management_id )
 );
 
 
 CREATE SEQUENCE IF NOT EXISTS user_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.resource_user.user_id;
 CREATE SEQUENCE IF NOT EXISTS authority_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.authority.authority_id;
-CREATE SEQUENCE IF NOT EXISTS scope_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.scope.scope_id;
 CREATE SEQUENCE IF NOT EXISTS role_management_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.role_management.role_management_id;
 
 ALTER TABLE public.role_management
     ADD CONSTRAINT FK_ROLE_MANAGEMENT_AUTHORITY FOREIGN KEY (authority_id)
         REFERENCES public.authority (authority_id)
-        ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE public.role_management
-    ADD CONSTRAINT FK_ROLE_MANAGEMENT_SCOPE FOREIGN KEY (scope_id)
-        REFERENCES public.scope (scope_id)
         ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE public.role_management

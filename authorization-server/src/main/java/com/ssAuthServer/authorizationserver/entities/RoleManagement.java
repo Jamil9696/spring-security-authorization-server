@@ -32,10 +32,6 @@ public class RoleManagement{
   private ResourceUser user;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "scope_id")
-  private Scope scope;
-
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "authority_id")
   private Authority authority;
 

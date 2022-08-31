@@ -1,27 +1,17 @@
 package com.ssAuthServer.authorizationserver.security.userdetails;
 
-
-import com.google.common.collect.Maps;
-import com.ssAuthServer.authorizationserver.entities.Authority;
 import com.ssAuthServer.authorizationserver.entities.ResourceUser;
-import com.ssAuthServer.authorizationserver.entities.RoleManagement;
-import com.ssAuthServer.authorizationserver.security.jwt.CustomJwtAuthorizationScope;
 import com.ssAuthServer.authorizationserver.security.priviligies.Role;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class SecurityUser implements UserDetails {
 
   private ResourceUser resourceUser = new ResourceUser();
-  private final CustomJwtAuthorizationScope customJwtAuthorizationScope;
 
-  public SecurityUser(CustomJwtAuthorizationScope customJwtAuthorizationScope) {
-    this.customJwtAuthorizationScope = customJwtAuthorizationScope;
-  }
+
 
 
   public String getEmail(){
@@ -36,8 +26,6 @@ public class SecurityUser implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
 
-    // if roles and authorities are scopes
-    customJwtAuthorizationScope.setRoleManagements(resourceUser.getRoleManagements());
     // if scopes are not required
     return Role.getGrantedAuthorities(resourceUser.getRoleManagements());
 

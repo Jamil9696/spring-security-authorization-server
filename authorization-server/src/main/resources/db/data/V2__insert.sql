@@ -9,16 +9,10 @@ INSERT INTO public.authority (role_name) VALUES
 ('DEPARTMENT_LEADER'),
 ('ADMIN');
 
-INSERT INTO public.scope(scope_name) VALUES
-('BACKEND_A'),
-('BACKEND_B'),
-('BACKEND_C');
-
-
-INSERT INTO public.role_management(user_id, authority_id, scope_id) VALUES
-(1,3, 1),
-(1,4, 1),
-(1,2, 2),
-(2,1, 1);
+INSERT INTO public.role_management(user_id, authority_id) VALUES
+(1,3),
+(1,4),
+(1,2),
+(2,1);
 
 

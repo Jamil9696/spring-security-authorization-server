@@ -2,7 +2,6 @@ package com.ssAuthServer.authorizationserver.config.authconfig;
 
 import com.ssAuthServer.authorizationserver.config.clientconfig.Client;
 import com.ssAuthServer.authorizationserver.config.securityconfig.CorsCustomizer;
-import com.ssAuthServer.authorizationserver.security.jwt.CustomJwtAuthorizationScope;
 import com.ssAuthServer.authorizationserver.security.jwt.CustomJwtToken;
 import com.ssAuthServer.authorizationserver.security.userdetails.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,16 +74,12 @@ public class AuthorizationServerConfig {
 
   @Bean
   public SecurityUser securityUser(){
-    return new SecurityUser(customAuthorizationScope());
-  }
-  @Bean
-  public CustomJwtAuthorizationScope customAuthorizationScope(){
-    return new CustomJwtAuthorizationScope();
+    return new SecurityUser();
   }
 
   @Bean
   public CustomJwtToken customJwtToken(){
-    return new CustomJwtToken(customAuthorizationScope());
+    return new CustomJwtToken();
   }
 
   @Bean
