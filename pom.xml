@@ -8,13 +8,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
 
     <modules>
         <module>authorization-server</module>
-        <module>integration-test</module>
         <module>resource-server</module>
     </modules>
 
