@@ -18,13 +18,14 @@ public class CustomJwtToken implements OAuth2TokenCustomizer<JwtEncodingContext>
 
   @Override
   public void customize(JwtEncodingContext context) {
+
     Authentication principal = context.getPrincipal();
 
     if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken){
       context.
           getClaims()
           .claim("authorities", claimAuthoritiesToJwT(context.getPrincipal()) )
-           .claim("roles", claimRolesToJWT(context.getPrincipal()));
+          .claim("roles", claimRolesToJWT(context.getPrincipal()));
     }
   }
 

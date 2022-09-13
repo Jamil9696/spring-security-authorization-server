@@ -12,7 +12,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.ssAuthServer.authorizationserver.security.priviligies.Permission.*;
 import static java.util.List.of;
 
-
+// Attribute Access Control anschauen
 public enum Role {
 
     EMPLOYEE(// new permission
