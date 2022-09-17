@@ -20,7 +20,7 @@ DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWOR
 
 
 ![img.png](img.png)
-for more infos on this sketch:
+for more information on this sketch:
 Book: Spring Security in action
 author: Laurentius spilca 
 chapter: Hello Spring Security -> 2.2 Which are the default configurations?
