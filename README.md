@@ -7,7 +7,7 @@
 DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWORD=superSecretPassword;DATASOURCE_USER=admin;FLYWAY_USER=admin;FLYWAY_PASSWORD=superSecretPassword;ISSUER_URI=http://localhost:9000;CLIENT=client;CLIENT_SECRET=secret;REDIRECT_URL=http://127.0.0.1:3000/authorized;ALLOWED_ORIGIN=http://127.0.0.1:3000
 * run docker-compose-postgres.yml file
 * build project
-* open JShell console and generate code challenge and verifier (code code-challenge-and-verifier.txt)
+* open JShell console and generate code challenge and verifier (code in code-challenge-and-verifier.txt)
 * in AuthorizationServerConfig Class, replace code challenge and verifier value with your generated code
 * run application
 
