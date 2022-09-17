@@ -30,7 +30,7 @@ DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWOR
 
 ### what is missing 
 
-* clients are currently provided at runtime by the authorization server but need 
+* clients are currently provided at runtime by the authorization server but 
  must be stored in a database
 * the resource server hasn't been finished yet
 * unit and integration tests are still missing
