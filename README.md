@@ -16,7 +16,7 @@ DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWOR
 * Password: Hallo Bob 
 
 ### Design architecture 
-#### How to use the spring security framework
+##### How to use the spring security framework
 
 
 ![img.png](img.png)
@@ -28,6 +28,17 @@ DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWOR
 * chapter: Hello Spring Security -> 2.2 Which are the default configurations?
 * link: https://learning.oreilly.com/library/view/spring-security-in/9781617297731/?ar=
 
+### what is missing 
+
+* clients are currently provided at runtime by the authorization server
+clients need to be stored in a database
+* the resource server hasn't been finished yet
+* unit and integration tests are still missing
+* An user interface should be added
+* Tokens should associate roles with clients
+* more provider for different authentications are needed
+for example using second channel of
+communication for password forgotten functionality 
 
 
 
