@@ -1,0 +1,38 @@
+// Scritt 1: generate Code randomly
+
+import java.security.SecureRandom;
+import java.util.Base64;
+
+SecureRandom sr = new SecureRandom();
+byte [] code = new byte[32];
+sr.nextBytes(code);
+
+String code_verifier = Base64.getUrlEncoder()
+    .withoutPadding()
+    .encodeToString(code);
+
+// then execute!
+// generated Code: eLIcOHHuDGY3sJoRi6Qvhfz0X_HSZUFOuX8tKgcVPzw
+
+// Schritt 2: hash den generierten Code
+
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+
+  try{
+   MessageDigest md = MessageDigest.getInstance("SHA-256");
+   byte [] digested = md.digest("eLIcOHHuDGY3sJoRi6Qvhfz0X_HSZUFOuX8tKgcVPzw".getBytes());
+   String code_challenge = Base64.getUrlEncoder().withoutPadding().encodeToString(digested);
+
+   System.out.println(code_challenge);
+
+} catch( NoSuchAlgorithmException e){
+    e.printStackTrace();
+}
+
+
+
+// generated Challenge: hG1RD7JwvgNqo3ywr1Sbr8V8Br66Q3KeNjCxKyVMAaE
+
+
