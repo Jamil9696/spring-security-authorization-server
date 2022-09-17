@@ -24,7 +24,7 @@ DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWOR
 
 ### for more information on this sketch:
 * Book: Spring Security in action
-* author: Laurentius spilca 
+* author: Laurentiu Spilca 
 * chapter: Hello Spring Security -> 2.2 Which are the default configurations?
 * link: https://learning.oreilly.com/library/view/spring-security-in/9781617297731/?ar=
 
