@@ -31,6 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
+        System.out.println("start db request");
 
         UserDetails user = customUserDetailsService.loadUserByUsername(email);
         return checkPassword(user, password);

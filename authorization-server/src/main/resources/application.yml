@@ -6,7 +6,11 @@ spring:
     name: authorization-server
   profiles:
     active: ${SPRING_PROFILE:default}
-
+  ldap:
+    embedded:
+      port: 8389
+      ldif: classpath:ldap/users.ldif
+      base-dn: dc=springframework,dc=org
 
   datasource:
     username: ${DATASOURCE_USER}
@@ -30,6 +34,8 @@ spring:
           issuer-uri: ${ISSUER_URI}
       redirect-url: ${REDIRECT_URL}
       allowed-origins: ${ALLOWED_ORIGIN}
+      allowed-headers: ${ALLOWED_HEADER}
+      allowed-methods: ${ALLOWED_METHOD}
 
   jpa:
     hibernate:
