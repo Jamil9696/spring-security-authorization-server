@@ -68,9 +68,20 @@ public enum Role {
 
     }
 
-     public static Set<Permission> getCorrespondingPermissions(String RoleName){
-        return Role.valueOf(RoleName).getPermissions();
+    public static Set<SimpleGrantedAuthority> getGrantedAuthoritiesForLDAP(Set<Authority> authorities){
+
+        return authorities
+            .stream()
+            .flatMap(authority ->
+                Role.valueOf(authority.getRoleName())
+                    .getRolesWithPrefix()
+                    .stream()
+            ).collect(Collectors.toSet());
+
     }
+
+
+
 
     private Set<Permission> getPermissions(){
         return permissions;

@@ -2,8 +2,10 @@ package com.ssAuthServer.authorizationserver.security.userdetails;
 
 import com.ssAuthServer.authorizationserver.entities.ResourceUser;
 import com.ssAuthServer.authorizationserver.security.priviligies.Role;
+import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.*;
 
 

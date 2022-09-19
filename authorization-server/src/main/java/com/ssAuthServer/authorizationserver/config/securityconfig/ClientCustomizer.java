@@ -65,24 +65,4 @@ public class ClientCustomizer {
     return new InMemoryRegisteredClientRepository(rc);
   }
 
-
-  /*
-  public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-    // @formatter:off
-    RegisteredClient registeredClient = RegisteredClient.withId("e4a295f7-0a5f-4cbc-bcd3-d870243d1b05")
-        .clientId("huongdanjava1")
-        .clientSecret("{noop}123")
-        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
-        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-        .tokenSettings(tokenSettings)
-        .build();
-    // @formatter:on
-
-    JdbcRegisteredClientRepository registeredClientRepository =
-        new JdbcRegisteredClientRepository(jdbcTemplate);
-    registeredClientRepository.save(registeredClient);
-
-    return registeredClientRepository;
-  }*/
-
 }
