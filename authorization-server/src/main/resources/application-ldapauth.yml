@@ -1,0 +1,25 @@
+
+spring:
+  datasource:
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
+    url: ${DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+
+  ldap:
+    embedded:
+      port: 8389
+      ldif: classpath:ldap/users.ldif
+      base-dn: dc=springframework,dc=org
+
+  security:
+    oauth2:
+      resourceserver:
+        client: ${CLIENT}
+        client-secret: ${CLIENT_SECRET}
+        jwt:
+          issuer-uri: ${ISSUER_URI}
+      redirect-url: ${REDIRECT_URL}
+      allowed-origins: ${ALLOWED_ORIGIN}
+      allowed-headers: ${ALLOWED_HEADER}
+      allowed-methods: ${ALLOWED_METHOD}
