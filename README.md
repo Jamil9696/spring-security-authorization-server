@@ -8,7 +8,7 @@ DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWOR
 * run docker-compose-postgres.yml file
 * build project
 * open JShell console and generate code challenge and verifier (code in code-challenge-and-verifier.txt)
-* in AuthorizationServerConfig Class, replace code challenge and verifier value with your own generated code
+* in AuthorizationServerConfig Class, replace code challenge and verifier value in predefined urls with your own generated code
 * run application
 
 ##### provided user 

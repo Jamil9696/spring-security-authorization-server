@@ -4,5 +4,24 @@ server:
 spring:
   application:
     name: authorization-server
+
+  datasource:
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
+    url: ${DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+
+  security:
+    oauth2:
+      resourceserver:
+        client: ${CLIENT}
+        client-secret: ${CLIENT_SECRET}
+        jwt:
+          issuer-uri: ${ISSUER_URI}
+      redirect-url: ${REDIRECT_URL}
+      allowed-origins: ${ALLOWED_ORIGIN}
+      allowed-headers: ${ALLOWED_HEADER}
+      allowed-methods: ${ALLOWED_METHOD}
+
   profiles:
-    active: ${SPRING_PROFILE:ldapauth}
+    active: ${SPRING_PROFILE:jwtauth}
