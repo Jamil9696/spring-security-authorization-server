@@ -48,20 +48,10 @@ public class JwtAuthSecurityConfig {
   }
 
   @Bean
-  public SecurityUser securityUser(){
-    return new SecurityUser();
-  }
-
-  @Bean
   public CustomJwtToken customJwtToken(){
     return new CustomJwtToken();
   }
 
-  @Bean
-  public ProviderSettings providerSettings(@Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") String issuerUrl) {
-
-    return ProviderSettings.builder().issuer(issuerUrl).build();
-  }
 
 
 }

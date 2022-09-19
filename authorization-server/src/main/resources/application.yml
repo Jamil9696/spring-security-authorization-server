@@ -5,4 +5,4 @@ spring:
   application:
     name: authorization-server
   profiles:
-    active: ${SPRING_PROFILE:jwtauth}
+    active: ${SPRING_PROFILE:ldapauth}

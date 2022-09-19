@@ -34,5 +34,4 @@ public class LdapAuthSecurityConfig {
         .build();
   }
 
-
 }

@@ -42,5 +42,9 @@ public class AuthorizationServerConfig {
     return new BCryptPasswordEncoder();
   }
 
+  @Bean
+  public ProviderSettings providerSettings(@Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") String issuerUrl) {
+    return ProviderSettings.builder().issuer(issuerUrl).build();
+  }
 
 }
