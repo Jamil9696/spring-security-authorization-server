@@ -17,7 +17,7 @@ CREATE TABLE public.authority(
 CREATE TABLE public.oauth2_registered_client(
     id varchar(100) NOT NULL ,
     client_authentication_methods varchar(200) NOT NULL,
-    client_id varchar(100) NOT NULL,
+    client_id varchar(100) NOT NULL UNIQUE,
     client_id_issued_at timestamp DEFAULT NULL,
     client_name varchar(200) NOT NULL,
     client_secret varchar(100) NOT NULL,
@@ -35,6 +35,7 @@ CREATE TABLE public.role_management(
     role_management_id BIGSERIAL,
     user_id BIGINT,
     authority_id BIGINT,
+    client_id varchar(100),
     constraint role_management_pk PRIMARY KEY ( role_management_id )
 );
 
@@ -51,6 +52,11 @@ ALTER TABLE public.role_management
 ALTER TABLE public.role_management
     ADD CONSTRAINT FK_ROLE_MANAGEMENT_RESOURCE_USER FOREIGN KEY (user_id)
         REFERENCES public.resource_user (user_id)
+        ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE public.role_management
+    ADD CONSTRAINT FK_ROLE_MANAGEMENT_OAUTH2_REGISTERED_CLIENT FOREIGN KEY (client_id)
+        REFERENCES public.oauth2_registered_client (client_id)
         ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
