@@ -1,6 +1,5 @@
 package com.ssAuthServer.authorizationserver.config.securityconfig;
 
-
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -43,8 +41,9 @@ public class ClientCustomizer {
   }
 
   @Bean
-  public RegisteredClientRepository registeredClientRepository(){
-    var rc = RegisteredClient.withId(UUID.randomUUID().toString())
+  public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate){
+
+    /*var rc = RegisteredClient.withId(UUID.randomUUID().toString())
         .clientId("client")
         .clientSecret(clientSecret)
         .scope(OidcScopes.OPENID)
@@ -61,8 +60,12 @@ public class ClientCustomizer {
         .clientSettings(ClientSettings.builder()
             .requireAuthorizationConsent(true)
             .build())
-        .build();
-    return new InMemoryRegisteredClientRepository(rc);
+        .build();*/
+
+    return new JdbcRegisteredClientRepository(jdbcTemplate);
+    //registeredClientRepository.save(rc);
+
+
   }
 
 }
