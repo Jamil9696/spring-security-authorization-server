@@ -63,8 +63,6 @@ public class ClientCustomizer {
   @Bean
   public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate){
     JdbcRegisteredClientRepository jdbc = new  JdbcRegisteredClientRepository(jdbcTemplate);
-
-
     return jdbc;
   }
 
