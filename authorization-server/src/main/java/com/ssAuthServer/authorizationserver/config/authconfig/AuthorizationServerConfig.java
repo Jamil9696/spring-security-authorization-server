@@ -23,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class AuthorizationServerConfig {
 
   //http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized
-  // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized&code_challenge=hG1RD7JwvgNqo3ywr1Sbr8V8Br66Q3KeNjCxKyVMAaE&code_challenge_method=S256
+  // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized&code_challenge=A3vklrxtU-aRtbcEtbRgHOXfU0sELL5woybDyqRG370&code_challenge_method=S256
   // http://localhost:9000/oauth2/token?client_id=client&redirect_uri=http://127.0.0.1:3000/authorized&grant_type=authorization_code&code=hG1RD7JwvgNqo3ywr1Sbr8V8Br66Q3KeNjCxKyVMAaE&code_verifier=eLIcOHHuDGY3sJoRi6Qvhfz0X_HSZUFOuX8tKgcVPzw
 
 
