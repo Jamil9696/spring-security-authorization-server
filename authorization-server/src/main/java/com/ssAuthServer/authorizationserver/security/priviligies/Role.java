@@ -51,13 +51,11 @@ public enum Role {
         permissions.addAll(newHashSet);
     }
     Role(List<Set<Permission>> list, HashSet<Permission> newHashSet) {
-
         list.forEach(permissions::addAll);
         permissions.addAll(newHashSet);
     }
 
     public static Set<SimpleGrantedAuthority> getGrantedAuthorities(Set<RoleManagement> roleManagements){
-
         return roleManagements
                .stream()
                .flatMap(authority ->
@@ -65,29 +63,14 @@ public enum Role {
                     .getRolesWithPrefix()
                     .stream()
         ).collect(Collectors.toSet());
-
     }
-
-    public static Set<SimpleGrantedAuthority> getGrantedAuthoritiesForLDAP(Set<Authority> authorities){
-
-        return authorities
-            .stream()
-            .flatMap(authority ->
-                Role.valueOf(authority.getRoleName())
-                    .getRolesWithPrefix()
-                    .stream()
-            ).collect(Collectors.toSet());
-
-    }
-
-
-
 
     private Set<Permission> getPermissions(){
         return permissions;
     }
 
     private Set<SimpleGrantedAuthority> getRolesWithPrefix(){
+
         var permissions= getPermissions()
                 .stream()
                 .map(permission ->

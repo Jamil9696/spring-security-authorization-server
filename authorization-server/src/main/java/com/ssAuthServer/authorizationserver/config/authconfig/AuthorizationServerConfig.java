@@ -1,11 +1,7 @@
 package com.ssAuthServer.authorizationserver.config.authconfig;
 
-import com.ssAuthServer.authorizationserver.config.securityconfig.ClientCustomizer;
 import com.ssAuthServer.authorizationserver.config.securityconfig.CorsCustomizer;
-import com.ssAuthServer.authorizationserver.security.jwt.CustomJwtToken;
-import com.ssAuthServer.authorizationserver.security.userdetails.SecurityUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
-  //http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized
-  // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized&code_challenge=hG1RD7JwvgNqo3ywr1Sbr8V8Br66Q3KeNjCxKyVMAaE&code_challenge_method=S256
-  // http://localhost:9000/oauth2/token?client_id=client&redirect_uri=http://127.0.0.1:3000/authorized&grant_type=authorization_code&code=hG1RD7JwvgNqo3ywr1Sbr8V8Br66Q3KeNjCxKyVMAaE&code_verifier=eLIcOHHuDGY3sJoRi6Qvhfz0X_HSZUFOuX8tKgcVPzw
-
-
+  // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized
+  // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized&code_challenge=A3vklrxtU-aRtbcEtbRgHOXfU0sELL5woybDyqRG370&code_challenge_method=S256
+  // http://localhost:9000/oauth2/token?redirect_uri=http://127.0.0.1:3000/authorized&grant_type=authorization_code&code=7idqelzPdju-tc6Ox95Zdi2k9ls0CkCD27xyo_B7gD8Lxjl2CAvkMV-nqN5ob74ko8o63FTsVcrgu7Fz8rNcQAa1j-4m2IsapMudGBridSxunXbwoAurH1xEket9757n&code_verifier=G5lKjm3pg5ex8oGG9v5OsMBaPgEWLq534OpGlePBtRQ
   private final CorsCustomizer corsCustomizer;
 
   @Bean

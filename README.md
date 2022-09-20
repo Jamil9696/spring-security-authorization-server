@@ -4,7 +4,7 @@
 
 * execute mvn clean, install
 * copy and paste environment string in run configuration:
-DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWORD=superSecretPassword;DATASOURCE_USER=admin;FLYWAY_USER=admin;FLYWAY_PASSWORD=superSecretPassword;ISSUER_URI=http://localhost:9000;CLIENT=client;CLIENT_SECRET=secret;REDIRECT_URL=http://127.0.0.1:3000/authorized;ALLOWED_ORIGIN=http://127.0.0.1:3000;ALLOWED_HEADER=*;ALLOWED_METHOD=*
+  DATASOURCE_URL=jdbc:postgresql://localhost:5432/resource_user;DATASOURCE_PASSWORD=superSecretPassword;DATASOURCE_USER=admin;FLYWAY_USER=admin;FLYWAY_PASSWORD=superSecretPassword;ISSUER_URI=http://127.0.0.1:9000;CLIENT=client;CLIENT_SECRET=secret;REDIRECT_URL=http://127.0.0.1:3000/authorized;ALLOWED_ORIGIN=http://127.0.0.1:3000;ALLOWED_HEADER=*;ALLOWED_METHOD=*
 * run docker-compose-postgres.yml file
 * build project
 * open JShell console and generate code challenge and verifier (code in code-challenge-and-verifier.txt)

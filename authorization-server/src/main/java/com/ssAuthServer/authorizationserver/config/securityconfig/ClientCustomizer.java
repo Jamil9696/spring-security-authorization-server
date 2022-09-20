@@ -1,6 +1,5 @@
 package com.ssAuthServer.authorizationserver.config.securityconfig;
 
-
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -25,28 +23,23 @@ import java.util.UUID;
 @Configuration
 public class ClientCustomizer {
 
-  private final String client;
-  private final String clientSecret;
+
   private final String redirectUrl;
   private final TokenSettings tokenSettings;
+  private final PasswordEncoder passwordEncoder;
 
   public ClientCustomizer(
       @Autowired PasswordEncoder passwordEncoder,
       @Autowired TokenSettings tokenSettings,
-      @Value("${spring.security.oauth2.resourceserver.client}")String client,
-      @Value("${spring.security.oauth2.resourceserver.client-secret}")String clientSecret,
       @Value("${spring.security.oauth2.redirect-url}")String redirectUrl) {
-    this.client = client;
-    this.clientSecret = passwordEncoder.encode(clientSecret);
+    this.passwordEncoder = passwordEncoder;
     this.redirectUrl = redirectUrl;
     this.tokenSettings = tokenSettings;
   }
-
-  @Bean
-  public RegisteredClientRepository registeredClientRepository(){
-    var rc = RegisteredClient.withId(UUID.randomUUID().toString())
-        .clientId("client")
-        .clientSecret(clientSecret)
+  private RegisteredClient registeredClientTemplate(String clientID, String clientSecret){
+    return RegisteredClient.withId(UUID.randomUUID().toString())
+        .clientId(clientID)
+        .clientSecret(passwordEncoder.encode(clientSecret))
         .scope(OidcScopes.OPENID)
         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
         .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
@@ -62,7 +55,16 @@ public class ClientCustomizer {
             .requireAuthorizationConsent(true)
             .build())
         .build();
-    return new InMemoryRegisteredClientRepository(rc);
+
+  }
+
+  @Bean
+  public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate){
+    JdbcRegisteredClientRepository jdbc = new  JdbcRegisteredClientRepository(jdbcTemplate);
+   // jdbc.save(registeredClientTemplate("client", "secret"));
+    //jdbc.save(registeredClientTemplate("client2", "secret2"));
+
+    return jdbc;
   }
 
 }
