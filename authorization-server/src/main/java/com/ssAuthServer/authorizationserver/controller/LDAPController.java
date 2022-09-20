@@ -9,7 +9,7 @@ public class LDAPController {
 
   @GetMapping()
   public String getInfo(){
-    return "authenticated";
+    return "ldap authentication was successful";
   }
 }
 
