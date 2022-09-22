@@ -25,4 +25,4 @@ spring:
       allowed-methods: ${ALLOWED_METHOD}
 
   profiles:
-    active: ${SPRING_PROFILE:jwtadvancedauth}
+    active: ${SPRING_PROFILE:jwtbasicauth}

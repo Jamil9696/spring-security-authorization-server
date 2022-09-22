@@ -1,16 +1,18 @@
 package com.ssAuthServer.authorizationserver.security.jwt;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CustomDefaultJwtToken implements OAuth2TokenCustomizer<JwtEncodingContext>  {
+public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext>  {
 
   private static final String ROLE_PREFIX = "ROLE_";
 
@@ -23,12 +25,12 @@ public class CustomDefaultJwtToken implements OAuth2TokenCustomizer<JwtEncodingC
     Authentication principal = context.getPrincipal();
 
 
-
-    if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof JwtAuthenticationToken){
+    if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken){
       context.
           getClaims()
           .claim("authorities", claimAuthoritiesToJwT(context.getPrincipal()) )
-          .claim("roles", claimRolesToJWT(context.getPrincipal()));
+          .claim("roles", claimRolesToJWT(context.getPrincipal()))
+          .claim("resource_access", context.getPrincipal().getDetails());
     }
   }
 

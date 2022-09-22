@@ -1,7 +1,6 @@
 package com.ssAuthServer.authorizationserver.security.providers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,11 +9,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+
+import java.util.Map;
+import java.util.Set;
 
 
 @RequiredArgsConstructor
-public class CustomDefaultAuthenticationProvider implements AuthenticationProvider  {
+public class CustomAuthenticationProvider implements AuthenticationProvider  {
 
     private final UserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -24,8 +25,6 @@ public class CustomDefaultAuthenticationProvider implements AuthenticationProvid
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
-
-        System.out.println("start db request");
 
         UserDetails user = customUserDetailsService.loadUserByUsername(email);
         return checkPassword(user, password);
@@ -42,10 +41,14 @@ public class CustomDefaultAuthenticationProvider implements AuthenticationProvid
         if (passwordEncoder.matches(rawPassword, user.getPassword())) {
 
 
-            return new UsernamePasswordAuthenticationToken(
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
                 user.getPassword(),
                 user.getAuthorities());
+
+
+            authenticationToken.setDetails(Map.of("backend1", Set.of("RoleA", "RoleB"), "backendB",Set.of("RoleC", "RoleD") ));
+            return authenticationToken;
         }
 
         throw new BadCredentialsException("Bad Credentials");

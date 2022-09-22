@@ -16,8 +16,6 @@ public class SecurityUser implements UserDetails {
   private ResourceUser resourceUser = new ResourceUser();
 
 
-
-
   public String getEmail(){
     return resourceUser.getEmail();
   }

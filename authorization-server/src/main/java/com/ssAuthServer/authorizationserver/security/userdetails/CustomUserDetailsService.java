@@ -2,6 +2,7 @@ package com.ssAuthServer.authorizationserver.security.userdetails;
 
 import com.ssAuthServer.authorizationserver.entities.ResourceUser;
 import com.ssAuthServer.authorizationserver.repository.ResourceUserRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
   @Autowired
