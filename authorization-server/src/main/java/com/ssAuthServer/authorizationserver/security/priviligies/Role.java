@@ -55,6 +55,7 @@ public enum Role {
         permissions.addAll(newHashSet);
     }
 
+
     public static Set<SimpleGrantedAuthority> getGrantedAuthorities(Set<RoleManagement> roleManagements){
         return roleManagements
                .stream()

@@ -1,43 +1,57 @@
 package com.ssAuthServer.authorizationserver.security.jwt;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
-public class CustomJwtToken implements OAuth2TokenCustomizer<JwtEncodingContext>  {
+@Slf4j
+public class CustomJwtToken {
 
-  private static final String ROLE_PREFIX = "ROLE_";
+  @Value("${spring.security.oauth2.resourceserver.jwt.jwt-secret}")
+  private String jwtSecret ;
 
 
 
-  @Override
-  public void customize(JwtEncodingContext context) {
 
-    Authentication principal = context.getPrincipal();
+  public String generateToken(String email){
+    Instant now = Instant.now();
+    Instant expireAt = now.plus(3, ChronoUnit.MINUTES);
 
-    if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken){
-      context.
-          getClaims()
-          .claim("authorities", claimAuthoritiesToJwT(context.getPrincipal()) )
-          .claim("roles", claimRolesToJWT(context.getPrincipal()));
+    return Jwts.builder()
+        .setSubject(email)
+        .setIssuedAt(Date.from(now))
+        .setExpiration(Date.from(expireAt))
+        .signWith(SignatureAlgorithm.HS512, jwtSecret)
+        .compact();
+  }
+
+  public String getUserMailFromToken(String token){
+    Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+
+    return claims.getSubject();
+  }
+
+  public boolean validateToken(String token){
+
+    try {
+      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+      return true;
+    }catch (SignatureException signatureException){
+      log.error("Invalid JWT Signature");
+    }catch (MalformedJwtException malformedJwtException){
+      log.error("Invalid JWT token");
+    }catch (ExpiredJwtException expiredJwtException){
+      log.error("Expired JWT token");
+    }catch (UnsupportedJwtException unsupportedJwtException){
+      log.error("Unsupported JWT token");
+    }catch (IllegalArgumentException malformedJwtException){
+      log.error("JWT claims string is empty ");
     }
-  }
 
-  private Set<String> claimAuthoritiesToJwT(Authentication principal){
-    return principal.getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority).filter(s -> s.startsWith(ROLE_PREFIX)).collect(Collectors.toSet());
-  }
-
-  private Set<String> claimRolesToJWT(Authentication principal){
-    return principal.getAuthorities()
-        .stream()
-        .map(GrantedAuthority::getAuthority).filter(s -> !s.startsWith(ROLE_PREFIX)).collect(Collectors.toSet());
+    return false;
   }
 }

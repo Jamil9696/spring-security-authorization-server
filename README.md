@@ -13,7 +13,7 @@
 
 ##### provided user 
 * Bob@gmail.com
-* Password: Hallo Bob 
+* Password: Hallo Bob
 
 ### Design architecture 
 ##### How to use the spring security framework

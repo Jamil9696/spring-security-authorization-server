@@ -1,0 +1,16 @@
+spring:
+
+  flyway:
+    default-schema: public
+    schemas: public
+    user: ${FLYWAY_USER}
+    password: ${FLYWAY_PASSWORD}
+    locations: classpath:${FLYWAY_LOCATION:/db/migration,/db/data} # ,/db/data
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
