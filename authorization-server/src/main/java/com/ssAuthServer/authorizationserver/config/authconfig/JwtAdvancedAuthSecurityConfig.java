@@ -35,9 +35,6 @@ public class JwtAdvancedAuthSecurityConfig {
 
      http.formLogin()
         .and()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
         .authorizeRequests()
         .anyRequest()
         .authenticated();
