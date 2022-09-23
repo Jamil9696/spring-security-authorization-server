@@ -11,6 +11,14 @@
 * in AuthorizationServerConfig Class, replace code challenge and verifier value in predefined urls with your own generated code
 * run application
 
+### How to use it
+* in authconfig package, there are different Config Files which will be loaded using Spring Profiles
+* Each Config files instantiate required bean objects and put it into the spring context to make them globally accessible (singleton pattern) 
+* The number of required bean objects depends on the current chosen spring profile (see in application.yml file)
+* This authorization server will provide different ways of authentication for documentation purpose
+* Ways to authenticate are: via jwt (globally and resource role mapping), ldap authentication, 
+and in a hybrid way (for example using UserDetailsService and ldap simultaneously, not yet implemented)
+
 ##### provided user 
 * Bob@gmail.com
 * Password: Hallo Bob
@@ -30,15 +38,16 @@
 
 ### what is missing 
 
-* clients are currently provided at runtime by the authorization server but 
- must be stored in a database
++ clients are currently provided at runtime by the authorization server but  
+ must be stored in a database (finished)
 * the resource server hasn't been finished yet
 * unit and integration tests are still missing
 * An user interface should be added
-* Tokens should associate roles with clients
++ Tokens should associate roles with clients (finished)
 * more provider for different authentications are needed
-for example using second channel of
-communication for password forgotten functionality 
++ ldap authentication (finished)
+
+###
 
 
 

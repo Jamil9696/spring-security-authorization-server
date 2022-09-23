@@ -25,7 +25,6 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
 
 
     Authentication principal = context.getPrincipal();
-
     Map<String, Set<String>> scopedRoles = claimLocalRolesToJwt(context.getPrincipal());
 
 
@@ -47,7 +46,6 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
       if(authority.startsWith(ROLE_PREFIX) && authority.contains(RESOURCE_PREFIX)){
         String value = authority.substring(0, authority.lastIndexOf(RESOURCE_PREFIX));
         String key = authority.substring(authority.lastIndexOf(RESOURCE_PREFIX)).replace(RESOURCE_PREFIX,"");
-
         if(map.containsKey(key)){
           map.get(key).add(value);
         }else{
