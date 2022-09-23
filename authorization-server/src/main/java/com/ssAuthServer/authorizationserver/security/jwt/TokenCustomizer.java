@@ -32,14 +32,11 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
     if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken){
       context.
           getClaims()
-          .claim("authorities", claimGlobalAuthoritiesToJwT(context.getPrincipal()) )
-          .claim("roles", claimGlobalRolesToJWT(context.getPrincipal()))
+          .claim("global_authorities", claimGlobalAuthoritiesToJwT(context.getPrincipal()) )
+          .claim("global_permissions", claimGlobalRolesToJWT(context.getPrincipal()))
           .claim("resource_access", scopedRoles);
     }
   }
-  /*private Map<String, Set<String>> claimLocalAuthoritiesToJwt(Authentication principal){
-
-  }*/
 
   private Map<String, Set<String>> claimLocalRolesToJwt(Authentication principal){
 
