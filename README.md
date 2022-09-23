@@ -13,7 +13,7 @@
 
 ### How to use it
 * in authconfig package, there are different Config Files which will be loaded using Spring Profiles
-* Each Config files instantiate required bean objects and put it into the spring context to make them globally accessible (singleton pattern) 
+* Each Config file instantiates required bean objects and put it into the spring context to make them globally accessible (singleton pattern) 
 * The number of required bean objects depends on the current chosen spring profile (see in application.yml file)
 * This authorization server will provide different ways of authentication for documentation purpose
 * Ways to authenticate are: via jwt (globally and resource role mapping), ldap authentication, 
