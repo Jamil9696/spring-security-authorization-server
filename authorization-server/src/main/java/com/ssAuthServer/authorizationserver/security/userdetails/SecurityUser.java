@@ -16,8 +16,6 @@ public class SecurityUser implements UserDetails {
   private ResourceUser resourceUser = new ResourceUser();
 
 
-
-
   public String getEmail(){
     return resourceUser.getEmail();
   }
@@ -29,20 +27,13 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-
-    Map map = Map.of("String", Set.of("TEST1", "TEST2"));
-
-    String string = map.toString();
-
-    System.out.println("MAP STRING: " + string);
-
-    // if scopes are not required
     return Role.getGrantedAuthorities(resourceUser.getRoleManagements());
 
   }
 
   @Override
   public String getPassword() {
+
     return resourceUser.getUserPw();
   }
 

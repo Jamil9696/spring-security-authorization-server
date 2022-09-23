@@ -35,6 +35,12 @@ public class RoleManagement{
   @JoinColumn(name = "authority_id")
   private Authority authority;
 
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "client_id ")
+  private Client client;
+
+
+
 
 
 }

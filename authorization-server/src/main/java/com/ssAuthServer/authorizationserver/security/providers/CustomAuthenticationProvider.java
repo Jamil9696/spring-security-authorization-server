@@ -1,27 +1,28 @@
 package com.ssAuthServer.authorizationserver.security.providers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+
+@RequiredArgsConstructor
+public class CustomAuthenticationProvider implements AuthenticationProvider  {
 
     private final UserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public CustomAuthenticationProvider(UserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
-        this.customUserDetailsService = customUserDetailsService;
-        this.passwordEncoder = passwordEncoder;
-
-    }
 
 
     @Override
@@ -29,10 +30,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        System.out.println("start db request");
-
         UserDetails user = customUserDetailsService.loadUserByUsername(email);
-        return checkPassword(user, password);
+        if(passwordEncoder.matches(password, user.getPassword())){
+            return generateToken(user);
+
+        }
+
+        throw new BadCredentialsException("Bad Credentials");
 
     }
 
@@ -41,15 +45,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-    private Authentication checkPassword(UserDetails user, String rawPassword) {
-        
-        if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-            var list = user.getAuthorities();
-            return new UsernamePasswordAuthenticationToken(
-                user.getUsername(),
-                user.getPassword(),
-                user.getAuthorities());
-        }
-        throw new BadCredentialsException("Bad Credentials");
+
+    private Authentication generateToken(UserDetails user) {
+
+          return  new UsernamePasswordAuthenticationToken(
+                  user.getUsername(),
+                  user.getPassword(),
+                  user.getAuthorities());
     }
+
+
 }

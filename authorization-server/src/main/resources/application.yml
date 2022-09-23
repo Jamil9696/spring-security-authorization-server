@@ -18,10 +18,11 @@ spring:
         client-secret: ${CLIENT_SECRET}
         jwt:
           issuer-uri: ${ISSUER_URI}
+          jwt-secret: ${JWT_SECRET}
       redirect-url: ${REDIRECT_URL}
       allowed-origins: ${ALLOWED_ORIGIN}
       allowed-headers: ${ALLOWED_HEADER}
       allowed-methods: ${ALLOWED_METHOD}
 
   profiles:
-    active: ${SPRING_PROFILE:jwtauth}
+    active: ${SPRING_PROFILE:jwtbasicauth}

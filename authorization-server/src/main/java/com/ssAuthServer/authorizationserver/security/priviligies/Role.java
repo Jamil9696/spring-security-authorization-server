@@ -4,6 +4,7 @@ package com.ssAuthServer.authorizationserver.security.priviligies;
 import com.ssAuthServer.authorizationserver.entities.Authority;
 import com.ssAuthServer.authorizationserver.entities.RoleManagement;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,17 +51,19 @@ public enum Role {
     Role(HashSet<Permission> newHashSet) {
         permissions.addAll(newHashSet);
     }
+
     Role(List<Set<Permission>> list, HashSet<Permission> newHashSet) {
         list.forEach(permissions::addAll);
         permissions.addAll(newHashSet);
     }
 
+
     public static Set<SimpleGrantedAuthority> getGrantedAuthorities(Set<RoleManagement> roleManagements){
         return roleManagements
                .stream()
-               .flatMap(authority ->
-                   Role.valueOf(authority.getAuthority().getRoleName())
-                    .getRolesWithPrefix()
+               .flatMap(roleManagement ->
+                   Role.valueOf(roleManagement.getAuthority().getRoleName())
+                    .getRolesWithResourcePrefix(roleManagement.getClient().getClientId())
                     .stream()
         ).collect(Collectors.toSet());
     }
@@ -69,7 +72,8 @@ public enum Role {
         return permissions;
     }
 
-    private Set<SimpleGrantedAuthority> getRolesWithPrefix(){
+
+    private Set<SimpleGrantedAuthority> getRolesWithResourcePrefix(String resourceName){
 
         var permissions= getPermissions()
                 .stream()
@@ -77,7 +81,12 @@ public enum Role {
                         new SimpleGrantedAuthority(permission.getPermission())
                 )
                 .collect(Collectors.toSet());
-        permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+
+        if(StringUtils.hasText(resourceName)) {
+            permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name() + "__" + resourceName));
+        }else {
+            permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        }
         return permissions;
 
     }

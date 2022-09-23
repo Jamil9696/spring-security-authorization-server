@@ -36,6 +36,8 @@ public class ClientCustomizer {
     this.redirectUrl = redirectUrl;
     this.tokenSettings = tokenSettings;
   }
+
+  // template for adding more clients
   private RegisteredClient registeredClientTemplate(String clientID, String clientSecret){
     return RegisteredClient.withId(UUID.randomUUID().toString())
         .clientId(clientID)
@@ -61,9 +63,6 @@ public class ClientCustomizer {
   @Bean
   public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate){
     JdbcRegisteredClientRepository jdbc = new  JdbcRegisteredClientRepository(jdbcTemplate);
-   // jdbc.save(registeredClientTemplate("client", "secret"));
-    //jdbc.save(registeredClientTemplate("client2", "secret2"));
-
     return jdbc;
   }
 
