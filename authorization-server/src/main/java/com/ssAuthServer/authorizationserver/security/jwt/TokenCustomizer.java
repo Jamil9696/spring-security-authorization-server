@@ -5,16 +5,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.google.common.collect.Sets.newHashSet;
+
 
 public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext>  {
 
   private static final String ROLE_PREFIX = "ROLE_";
+  private static final String RESOURCE_PREFIX = "__";
 
 
 
@@ -24,25 +26,55 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
 
     Authentication principal = context.getPrincipal();
 
+    Map<String, Set<String>> scopedRoles = claimLocalRolesToJwt(context.getPrincipal());
+
 
     if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken){
       context.
           getClaims()
-          .claim("authorities", claimAuthoritiesToJwT(context.getPrincipal()) )
-          .claim("roles", claimRolesToJWT(context.getPrincipal()))
-          .claim("resource_access", context.getPrincipal().getDetails());
+          .claim("authorities", claimGlobalAuthoritiesToJwT(context.getPrincipal()) )
+          .claim("roles", claimGlobalRolesToJWT(context.getPrincipal()))
+          .claim("resource_access", scopedRoles);
+    }
+  }
+  /*private Map<String, Set<String>> claimLocalAuthoritiesToJwt(Authentication principal){
+
+  }*/
+
+  private Map<String, Set<String>> claimLocalRolesToJwt(Authentication principal){
+
+    Map<String, Set<String>> map = new HashMap<>();
+
+    for (GrantedAuthority resource : principal.getAuthorities()){
+      String authority = resource.getAuthority();
+      if(authority.startsWith(ROLE_PREFIX) && authority.contains(RESOURCE_PREFIX)){
+        String value = authority.substring(0, authority.lastIndexOf(RESOURCE_PREFIX));
+        String key = authority.substring(authority.lastIndexOf(RESOURCE_PREFIX)).replace(RESOURCE_PREFIX,"");
+
+        if(map.containsKey(key)){
+          map.get(key).add(value);
+        }else{
+          map.put(key,newHashSet(value));
+      }
     }
   }
 
-  private Set<String> claimAuthoritiesToJwT(Authentication principal){
-    return principal.getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority).filter(s -> s.startsWith(ROLE_PREFIX)).collect(Collectors.toSet());
+    return map;
   }
 
-  private Set<String> claimRolesToJWT(Authentication principal){
+  private Set<String> claimGlobalAuthoritiesToJwT(Authentication principal){
+    return principal.getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority).filter(
+                s -> s.startsWith(ROLE_PREFIX) && !s.contains(RESOURCE_PREFIX))
+        .collect(Collectors.toSet());
+  }
+
+  private Set<String> claimGlobalRolesToJWT(Authentication principal){
     return principal.getAuthorities()
         .stream()
-        .map(GrantedAuthority::getAuthority).filter(s -> !s.startsWith(ROLE_PREFIX)).collect(Collectors.toSet());
+        .map(GrantedAuthority::getAuthority).filter(
+            s -> !s.startsWith(ROLE_PREFIX) && !s.contains(RESOURCE_PREFIX))
+        .collect(Collectors.toSet());
   }
 }

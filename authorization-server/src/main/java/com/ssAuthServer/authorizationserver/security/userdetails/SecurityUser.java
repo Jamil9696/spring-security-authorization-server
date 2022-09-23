@@ -27,13 +27,13 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    // if scopes are not required
     return Role.getGrantedAuthorities(resourceUser.getRoleManagements());
 
   }
 
   @Override
   public String getPassword() {
+
     return resourceUser.getUserPw();
   }
 

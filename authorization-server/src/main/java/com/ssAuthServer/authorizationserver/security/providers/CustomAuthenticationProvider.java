@@ -6,10 +6,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,7 +31,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider  {
         String password = authentication.getCredentials().toString();
 
         UserDetails user = customUserDetailsService.loadUserByUsername(email);
-        return checkPassword(user, password);
+        if(passwordEncoder.matches(password, user.getPassword())){
+            return generateToken(user);
+
+        }
+
+        throw new BadCredentialsException("Bad Credentials");
 
     }
 
@@ -36,21 +45,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider  {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-    private Authentication checkPassword(UserDetails user, String rawPassword) {
-        
-        if (passwordEncoder.matches(rawPassword, user.getPassword())) {
 
+    private Authentication generateToken(UserDetails user) {
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                user.getUsername(),
-                user.getPassword(),
-                user.getAuthorities());
-
-
-            authenticationToken.setDetails(Map.of("backend1", Set.of("RoleA", "RoleB"), "backendB",Set.of("RoleC", "RoleD") ));
-            return authenticationToken;
-        }
-
-        throw new BadCredentialsException("Bad Credentials");
+          return  new UsernamePasswordAuthenticationToken(
+                  user.getUsername(),
+                  user.getPassword(),
+                  user.getAuthorities());
     }
+
+
 }
