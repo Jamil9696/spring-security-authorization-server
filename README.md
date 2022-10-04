@@ -45,9 +45,11 @@ and in a hybrid way (for example using UserDetailsService and ldap simultaneousl
 * An user interface should be added
 + Tokens should associate roles with clients (finished)
 * more provider for different authentications are needed
-+ ldap authentication (finished)
++ ldap authentication, embedded ldap server has been implemented, but real one is not used yet (partially finished)
++ Session Management 
++ more authentication providers
 
-###
+### 
 
 
 
