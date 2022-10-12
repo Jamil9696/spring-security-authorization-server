@@ -1,27 +1,24 @@
 package com.ssAuthServer.authorizationserver.config.securityconfig;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.List;
 
 @Configuration
-@RequiredArgsConstructor
 public class CorsCustomizer {
 
-
   @Value("${spring.security.oauth2.allowed-origins")
-  private final String[] allowedOrigin;
+  private String[] allowedOrigin;
 
   @Value("${spring.security.oauth2.allowed-headers")
-  private final String[] allowedHeader;
+  private String[] allowedHeader;
 
   @Value("${spring.security.oauth2.allowed-methods")
-  private final String[] allowedMethod;
+  private String[] allowedMethod;
 
 
 
