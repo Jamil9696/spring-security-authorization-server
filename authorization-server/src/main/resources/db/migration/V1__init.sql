@@ -30,7 +30,6 @@ CREATE TABLE public.oauth2_registered_client(
     constraint scope_pk PRIMARY KEY ( client_id )
 );
 
-
 CREATE TABLE public.role_management(
     role_management_id BIGSERIAL,
     user_id BIGINT,

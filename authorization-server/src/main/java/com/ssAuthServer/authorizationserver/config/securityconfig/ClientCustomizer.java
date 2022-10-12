@@ -1,5 +1,7 @@
 package com.ssAuthServer.authorizationserver.config.securityconfig;
 
+import java.time.Duration;
+import java.util.UUID;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,13 +18,9 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
-import java.time.Duration;
-import java.util.UUID;
-
 @Getter
 @Configuration
 public class ClientCustomizer {
-
 
   private final String redirectUrl;
   private final TokenSettings tokenSettings;

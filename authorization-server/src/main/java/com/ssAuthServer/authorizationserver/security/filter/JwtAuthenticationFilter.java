@@ -1,6 +1,5 @@
 package com.ssAuthServer.authorizationserver.security.filter;
 
-import com.ssAuthServer.authorizationserver.security.providers.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
