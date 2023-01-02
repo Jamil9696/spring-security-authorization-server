@@ -28,16 +28,13 @@ public class AuthorizationServerConfig {
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
-    //OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-    corsCustomizer.corsCustomizer(http);
-     http.authorizeRequests()
-         .antMatchers("/login.html")
-         .permitAll()
-         .and()
-         .formLogin()
-         .loginPage("/login.html");
 
-     return http.build();
+   OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
+    corsCustomizer.corsCustomizer(http);
+     return http.formLogin().loginPage("/custom-login").failureForwardUrl("/custom-login?error=true")
+        .and()
+        .build();
   }
 
   @Bean
