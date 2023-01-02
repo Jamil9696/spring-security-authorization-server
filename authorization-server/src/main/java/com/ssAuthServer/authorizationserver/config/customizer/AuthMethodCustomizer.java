@@ -1,4 +1,4 @@
-package com.ssAuthServer.authorizationserver.config.securityconfig;
+package com.ssAuthServer.authorizationserver.config.customizer;
 
 
 import org.springframework.context.annotation.Configuration;

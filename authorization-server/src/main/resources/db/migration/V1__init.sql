@@ -10,20 +10,20 @@ CREATE TABLE public.resource_user(
 
 CREATE TABLE public.authority(
     authority_id BIGSERIAL,
-    role_name varchar(40),
-    constraint authority_pk PRIMARY KEY ( authority_id )
+    role_name VARCHAR(40),
+    CONSTRAINT authority_pk PRIMARY KEY ( authority_id )
 );
 
 CREATE TABLE public.oauth2_registered_client(
-    id varchar(100) NOT NULL ,
-    client_authentication_methods varchar(200) NOT NULL,
+    id VARCHAR(100) NOT NULL ,
+    client_authentication_methods VARCHAR(200) NOT NULL,
     client_id varchar(100) NOT NULL UNIQUE,
     client_id_issued_at timestamp DEFAULT NULL,
-    client_name varchar(200) NOT NULL,
-    client_secret varchar(100) NOT NULL,
+    client_name VARCHAR(200) NOT NULL,
+    client_secret VARCHAR(100) NOT NULL,
     client_secret_expires_at timestamp DEFAULT NULL,
     client_settings varchar(200) NOT NULL,
-    authorization_grant_types varchar(200) NOT NULL,
+    authorization_grant_types VARCHAR(200) NOT NULL,
     redirect_uris TEXT DEFAULT NULL,
     scopes TEXT DEFAULT NULL,
     token_settings TEXT DEFAULT NULL,
@@ -34,8 +34,9 @@ CREATE TABLE public.role_management(
     role_management_id BIGSERIAL,
     user_id BIGINT,
     authority_id BIGINT,
-    client_id varchar(100),
-    constraint role_management_pk PRIMARY KEY ( role_management_id )
+    client_id VARCHAR(100),
+    global_enabled BOOLEAN DEFAULT FALSE,
+    CONSTRAINT role_management_pk PRIMARY KEY ( role_management_id )
 );
 
 
@@ -54,8 +55,8 @@ ALTER TABLE public.role_management
         ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE public.role_management
-    ADD CONSTRAINT FK_ROLE_MANAGEMENT_OAUTH2_REGISTERED_CLIENT FOREIGN KEY (client_id)
-        REFERENCES public.oauth2_registered_client (client_id)
-        ON DELETE RESTRICT ON UPDATE RESTRICT;
+   ADD CONSTRAINT FK_ROLE_MANAGEMENT_OAUTH2_REGISTERED_CLIENT FOREIGN KEY (client_id)
+       REFERENCES public.oauth2_registered_client (client_id)
+       ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 

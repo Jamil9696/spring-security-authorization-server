@@ -1,8 +1,9 @@
 package com.ssAuthServer.authorizationserver.security.priviligies;
 
 
-import com.ssAuthServer.authorizationserver.entities.Authority;
 import com.ssAuthServer.authorizationserver.entities.RoleManagement;
+import com.ssAuthServer.authorizationserver.security.userdetails.SecurityAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
@@ -13,7 +14,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.ssAuthServer.authorizationserver.security.priviligies.Permission.*;
 import static java.util.List.of;
 
-// Attribute Access Control anschauen
+// static Role based Access Control or dynamic concept by using GrantedAuthority interface
 public enum Role {
 
     EMPLOYEE(// new permission
@@ -57,39 +58,16 @@ public enum Role {
         permissions.addAll(newHashSet);
     }
 
-
-    public static Set<SimpleGrantedAuthority> getGrantedAuthorities(Set<RoleManagement> roleManagements){
-        return roleManagements
-               .stream()
-               .flatMap(roleManagement ->
-                   Role.valueOf(roleManagement.getAuthority().getRoleName())
-                    .getRolesWithResourcePrefix(roleManagement.getClient().getClientId())
-                    .stream()
-        ).collect(Collectors.toSet());
+    public static Set<GrantedAuthority> getGrantedAuthority(Set<RoleManagement> roleManagements){
+        return roleManagements.stream().map(SecurityAuthority::new).collect(Collectors.toSet());
     }
+
 
     private Set<Permission> getPermissions(){
         return permissions;
     }
 
 
-    private Set<SimpleGrantedAuthority> getRolesWithResourcePrefix(String resourceName){
-
-        var permissions= getPermissions()
-                .stream()
-                .map(permission ->
-                        new SimpleGrantedAuthority(permission.getPermission())
-                )
-                .collect(Collectors.toSet());
-
-        if(StringUtils.hasText(resourceName)) {
-            permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name() + "__" + resourceName));
-        }else {
-            permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
-        }
-        return permissions;
-
-    }
 
 
 }
