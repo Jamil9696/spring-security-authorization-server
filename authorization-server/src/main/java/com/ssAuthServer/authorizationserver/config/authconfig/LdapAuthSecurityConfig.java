@@ -1,8 +1,8 @@
 package com.ssAuthServer.authorizationserver.config.authconfig;
 
 
-import com.ssAuthServer.authorizationserver.config.securityconfig.AuthMethodCustomizer;
-import com.ssAuthServer.authorizationserver.config.securityconfig.LdapCustomizer;
+import com.ssAuthServer.authorizationserver.config.customizer.AuthMethodCustomizer;
+import com.ssAuthServer.authorizationserver.config.customizer.LdapCustomizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -36,8 +36,11 @@ public class RoleManagement{
   private Authority authority;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "client_id ")
+  @JoinColumn(name = "client_id")
   private Client client;
+
+  @Column(name = "global_enabled", columnDefinition="BOOLEAN DEFAULT false" )
+  private boolean globalEnabled;
 
 
 

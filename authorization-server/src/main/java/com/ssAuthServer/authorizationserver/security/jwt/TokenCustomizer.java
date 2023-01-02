@@ -16,7 +16,7 @@ import static com.google.common.collect.Sets.newHashSet;
 public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext>  {
 
   private static final String ROLE_PREFIX = "ROLE_";
-  private static final String RESOURCE_PREFIX = "__";
+  private static final String ROLE_SUFFIX = "__";
 
 
 
@@ -25,51 +25,67 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
 
 
     Authentication principal = context.getPrincipal();
-    Map<String, Set<String>> scopedRoles = claimLocalRolesToJwt(context.getPrincipal());
 
+    if (Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken) {
 
-    if(Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken){
-      context.
-          getClaims()
-          .claim("global_authorities", claimGlobalAuthoritiesToJwT(context.getPrincipal()) )
-          .claim("global_permissions", claimGlobalRolesToJWT(context.getPrincipal()))
-          .claim("resource_access", scopedRoles);
+      Map<String, Set<String>> resourceAccess = claimLocalRolesToJwt(context.getPrincipal());
+
+      if (!resourceAccess.isEmpty()) {
+        context.
+            getClaims()
+            .claim("resource_access", resourceAccess);
+      }
+
+     Set<String> globalRoles = claimGlobalRolesToJWT(context.getPrincipal());
+
+      if(!globalRoles.isEmpty()){
+        context.
+            getClaims()
+            .claim("resource_access_global", claimGlobalRolesToJWT(context.getPrincipal()));
+      }
     }
   }
-
   private Map<String, Set<String>> claimLocalRolesToJwt(Authentication principal){
 
     Map<String, Set<String>> map = new HashMap<>();
 
-    for (GrantedAuthority resource : principal.getAuthorities()){
-      String authority = resource.getAuthority();
-      if(authority.startsWith(ROLE_PREFIX) && authority.contains(RESOURCE_PREFIX)){
-        String value = authority.substring(0, authority.lastIndexOf(RESOURCE_PREFIX));
-        String key = authority.substring(authority.lastIndexOf(RESOURCE_PREFIX)).replace(RESOURCE_PREFIX,"");
-        if(map.containsKey(key)){
-          map.get(key).add(value);
-        }else{
-          map.put(key,newHashSet(value));
-      }
-    }
-  }
+    principal.getAuthorities()
+        .stream()
+        .filter(a -> a.getAuthority().startsWith(ROLE_PREFIX) && a.getAuthority().contains(ROLE_SUFFIX))
+        .forEach(s -> {
+          if( map.containsKey(extractKey(s))){
+            map.get(extractKey(s)).add(extractValues(s));
+          }else{
+            map.put(extractKey(s),newHashSet(extractValues(s)));
+          }
+        });
 
     return map;
   }
 
-  private Set<String> claimGlobalAuthoritiesToJwT(Authentication principal){
-    return principal.getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority).filter(
-                s -> s.startsWith(ROLE_PREFIX) && !s.contains(RESOURCE_PREFIX))
+  private Set<String> claimGlobalRolesToJWT(Authentication principal){
+    return principal.getAuthorities().stream()
+        .map(GrantedAuthority::getAuthority)
+        .filter( s -> s.startsWith(ROLE_PREFIX) && !s.contains(ROLE_SUFFIX))
         .collect(Collectors.toSet());
   }
 
-  private Set<String> claimGlobalRolesToJWT(Authentication principal){
-    return principal.getAuthorities()
-        .stream()
-        .map(GrantedAuthority::getAuthority).filter(
-            s -> !s.startsWith(ROLE_PREFIX) && !s.contains(RESOURCE_PREFIX))
-        .collect(Collectors.toSet());
+  private String extractKey(GrantedAuthority g){
+    String authority = g.getAuthority();
+
+    if(authority.contains(ROLE_SUFFIX))
+      authority = authority.substring(authority.lastIndexOf(ROLE_SUFFIX)).replace(ROLE_SUFFIX,"");
+
+    return authority;
+  }
+
+
+  private String extractValues(GrantedAuthority g){
+    String authority = g.getAuthority();
+
+    if(authority.contains(ROLE_SUFFIX))
+      authority = authority.substring(0, authority.lastIndexOf(ROLE_SUFFIX));
+
+    return authority;
   }
 }

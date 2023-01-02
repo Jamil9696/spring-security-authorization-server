@@ -1,6 +1,6 @@
 package com.ssAuthServer.authorizationserver.config.authconfig;
 
-import com.ssAuthServer.authorizationserver.config.securityconfig.CorsCustomizer;
+import com.ssAuthServer.authorizationserver.config.customizer.CorsCustomizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +18,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
+  // http://localhost:9000/.well-known/openid-configuration
   // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized
   // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized&code_challenge=A3vklrxtU-aRtbcEtbRgHOXfU0sELL5woybDyqRG370&code_challenge_method=S256
   // http://localhost:9000/oauth2/token?redirect_uri=http://127.0.0.1:3000/authorized&grant_type=authorization_code&code=7idqelzPdju-tc6Ox95Zdi2k9ls0CkCD27xyo_B7gD8Lxjl2CAvkMV-nqN5ob74ko8o63FTsVcrgu7Fz8rNcQAa1j-4m2IsapMudGBridSxunXbwoAurH1xEket9757n&code_verifier=G5lKjm3pg5ex8oGG9v5OsMBaPgEWLq534OpGlePBtRQ
-
+  // code_challenge=A3vklrxtU-aRtbcEtbRgHOXfU0sELL5woybDyqRG370&code_challenge_method=S256
   private final CorsCustomizer corsCustomizer;
-
 
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
