@@ -31,11 +31,9 @@ public class JwtBasicAuthConfig {
     AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
     auth.authenticationProvider(customAuthenticationProvider());
 
-    return http.formLogin()
-        .and()
-        .authorizeRequests()
-        .anyRequest()
-        .authenticated()
+    return http
+        .formLogin()
+        .loginPage("/login")
         .and()
         .build();
   }

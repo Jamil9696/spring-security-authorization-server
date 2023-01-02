@@ -26,3 +26,6 @@ spring:
 
   profiles:
     active: ${SPRING_PROFILE:jwtbasicauth}
+  thymeleaf:
+      mode: HTML5
+      prefix: classpath:/templates/
