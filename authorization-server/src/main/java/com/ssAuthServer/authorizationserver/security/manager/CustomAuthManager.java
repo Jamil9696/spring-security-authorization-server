@@ -1,7 +1,5 @@
 package com.ssAuthServer.authorizationserver.security.manager;
 
-import com.ssAuthServer.authorizationserver.security.providers.HttpBasicProvider;
-import com.ssAuthServer.authorizationserver.security.providers.UsernamePasswordProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
