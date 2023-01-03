@@ -10,9 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+// supports both http basic and form login.
 @RequiredArgsConstructor
-public class CustomAuthenticationProvider implements AuthenticationProvider  {
+public class UsernamePasswordProvider implements AuthenticationProvider  {
+
 
     private final UserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -24,9 +25,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider  {
         String password = authentication.getCredentials().toString();
 
         UserDetails user = customUserDetailsService.loadUserByUsername(email);
+
         if(passwordEncoder.matches(password, user.getPassword())){
             return generateToken(user);
-
         }
 
         throw new BadCredentialsException("Bad Credentials");
@@ -35,9 +36,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider  {
 
     @Override
     public boolean supports(Class<?> authentication) {
+
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
-
 
     private Authentication generateToken(UserDetails user) {
 
