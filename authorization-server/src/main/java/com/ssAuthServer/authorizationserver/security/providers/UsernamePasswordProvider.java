@@ -40,7 +40,6 @@ public class UsernamePasswordProvider implements AuthenticationProvider  {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-
     private Authentication generateToken(UserDetails user) {
 
           return  new UsernamePasswordAuthenticationToken(
