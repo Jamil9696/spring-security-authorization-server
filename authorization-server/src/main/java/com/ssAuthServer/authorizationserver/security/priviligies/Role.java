@@ -14,7 +14,8 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.ssAuthServer.authorizationserver.security.priviligies.Permission.*;
 import static java.util.List.of;
 
-// static Role based Access Control or dynamic concept by using GrantedAuthority interface
+// static Role based Access Control (don't use it, only for demonstration purpose)
+// An alternative could be a dynamic concept which is using GrantedAuthority interface
 public enum Role {
 
     EMPLOYEE(// new permission

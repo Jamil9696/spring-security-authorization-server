@@ -1,6 +1,8 @@
 package com.ssAuthServer.authorizationserver.security.priviligies;
 
 
+// static Role based Access Control (don't use it, only for demonstration purpose)
+// An alternative could be a dynamic concept which is using GrantedAuthority interface
 public enum Permission {
 
     READ_PROJECTS("project:read"),

@@ -2,6 +2,9 @@ server:
   port: 9000
 
 spring:
+  main:
+     allow-bean-definition-overriding: true
+
   application:
     name: authorization-server
 
@@ -25,4 +28,4 @@ spring:
       allowed-methods: ${ALLOWED_METHOD}
 
   profiles:
-    active: ${SPRING_PROFILE:jwtbasicauth}
+    active: ${SPRING_PROFILE:multiauth}
