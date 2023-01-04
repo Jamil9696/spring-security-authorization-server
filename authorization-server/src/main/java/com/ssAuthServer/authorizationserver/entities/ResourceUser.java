@@ -6,7 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,6 +29,7 @@ public class ResourceUser {
       generator = "user_id_seq")
   @Column(name = "user_id")
   private long userId;
+
   @Email
   private String email;
 
@@ -44,6 +47,9 @@ public class ResourceUser {
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Set<RoleManagement> roleManagements = new HashSet<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Otp> otps = new ArrayList<>();
 
 
 
