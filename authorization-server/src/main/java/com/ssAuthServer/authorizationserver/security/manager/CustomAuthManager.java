@@ -19,8 +19,6 @@ public class CustomAuthManager implements AuthenticationManager {
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-    System.out.println("I was called :)");
-
     for (AuthenticationProvider provider: providers) {
       if(provider.supports(authentication.getClass())){
         return provider.authenticate(authentication);

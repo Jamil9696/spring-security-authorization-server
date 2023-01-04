@@ -13,8 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile(AuthMethodCustomizer.LDAP_AUTH)
-public class LdapAuthSecurityConfig {
+@Profile(AuthMethodCustomizer.ACTIVE_DIRECTORY_AUTH)
+public class ADAuthSecurityConfig {
 
   private final PasswordEncoder byCryptPasswordEncoder;
   private final LdapCustomizer ldapCustomizer;

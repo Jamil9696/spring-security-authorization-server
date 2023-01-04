@@ -10,43 +10,38 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// supports both http basic and form login.
 @RequiredArgsConstructor
-public class UsernamePasswordProvider implements AuthenticationProvider  {
+public class UsernamePasswordProvider implements AuthenticationProvider {
+
+  private final UserDetailsService userDetailsService;
+  private final PasswordEncoder passwordEncoder;
+
+  @Override
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    String email = authentication.getName();
+    String password = authentication.getCredentials().toString();
 
 
-    private final UserDetailsService customUserDetailsService;
-    private final PasswordEncoder passwordEncoder;
+    UserDetails user = userDetailsService.loadUserByUsername(email);
 
-
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String email = authentication.getName();
-        String password = authentication.getCredentials().toString();
-
-        UserDetails user = customUserDetailsService.loadUserByUsername(email);
-
-        if(passwordEncoder.matches(password, user.getPassword())){
-            return generateToken(user);
-        }
-
-        throw new BadCredentialsException("Bad Credentials");
-
+    if(passwordEncoder.matches(password, user.getPassword())){
+      return generateToken(user);
     }
 
-    @Override
-    public boolean supports(Class<?> authentication) {
+    throw new BadCredentialsException("Bad Credentials: username or password is wrong");
 
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
-    }
+  }
 
-    private Authentication generateToken(UserDetails user) {
+  private Authentication generateToken(UserDetails user) {
 
-          return  new UsernamePasswordAuthenticationToken(
-                  user.getUsername(),
-                  user.getPassword(),
-                  user.getAuthorities());
-    }
+    return  new UsernamePasswordAuthenticationToken(
+        user.getUsername(),
+        user.getPassword(),
+        user.getAuthorities());
+  }
 
-
+  @Override
+  public boolean supports(Class<?> authentication) {
+    return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+  }
 }

@@ -8,6 +8,14 @@ CREATE TABLE public.resource_user(
     CONSTRAINT resource_user_pk PRIMARY KEY ( user_id )
 );
 
+CREATE TABLE public.otp(
+    otp_id BIGSERIAL,
+    user_id BIGINT,
+    otp varchar(200),
+    created_at varchar(30),
+    CONSTRAINT otp_pk PRIMARY KEY (otp_id)
+);
+
 CREATE TABLE public.authority(
     authority_id BIGSERIAL,
     role_name VARCHAR(40),
@@ -41,8 +49,16 @@ CREATE TABLE public.role_management(
 
 
 CREATE SEQUENCE IF NOT EXISTS user_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.resource_user.user_id;
+CREATE SEQUENCE IF NOT EXISTS otp_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.otp.otp_id;
 CREATE SEQUENCE IF NOT EXISTS authority_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.authority.authority_id;
 CREATE SEQUENCE IF NOT EXISTS role_management_id_seq INCREMENT BY 1 START WITH 1 OWNED BY public.role_management.role_management_id;
+
+
+ALTER TABLE public.otp
+    ADD CONSTRAINT FK_OTP_RESOURCE_USER FOREIGN KEY (user_id)
+        REFERENCES public.resource_user (user_id)
+        ON DELETE CASCADE ON UPDATE RESTRICT;
+
 
 ALTER TABLE public.role_management
     ADD CONSTRAINT FK_ROLE_MANAGEMENT_AUTHORITY FOREIGN KEY (authority_id)
