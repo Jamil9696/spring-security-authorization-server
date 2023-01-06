@@ -1,12 +1,13 @@
 package com.ssAuthServer.authorizationserver.security.userdetails;
 
 import com.ssAuthServer.authorizationserver.entities.ResourceUser;
-import com.ssAuthServer.authorizationserver.security.priviligies.Role;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -30,7 +31,19 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Role.getGrantedAuthority(resourceUser.getRoleManagements());
+
+    return resourceUser
+        .getRoleManagements()
+        .stream().map(r ->{
+          String role = "ROLE_" + r.getAuthority().getRoleName();
+          String scope = r.getClient().getClientId();
+
+          if(!r.isGlobalEnabled()){
+            role += "__" + scope;
+          }
+          return new SimpleGrantedAuthority(role);
+        })
+        .collect(Collectors.toSet());
 
   }
 

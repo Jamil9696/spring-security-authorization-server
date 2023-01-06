@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -83,9 +84,8 @@ public class MultiAuthConfig {
 
   @Bean
   public TokenCustomizer oauth2JwtToken(){
+
     return new TokenCustomizer();
   }
-
-
 
 }

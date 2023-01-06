@@ -43,4 +43,5 @@ public class AuthorizationServerConfig {
     return ProviderSettings.builder().issuer(issuerUrl).build();
   }
 
+
 }
