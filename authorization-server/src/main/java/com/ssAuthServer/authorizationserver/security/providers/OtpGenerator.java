@@ -1,9 +1,6 @@
 package com.ssAuthServer.authorizationserver.security.providers;
 
-import com.ssAuthServer.authorizationserver.entities.Otp;
-import com.ssAuthServer.authorizationserver.repository.OtpRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.SecureRandom;
