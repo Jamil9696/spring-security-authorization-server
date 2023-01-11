@@ -26,9 +26,7 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
-@Profile({
-    AuthMethodCustomizer.MULTI_AUTH,
-    AuthMethodCustomizer.BASIC_AUTH})
+@Profile({ AuthMethodCustomizer.MULTI_AUTH, AuthMethodCustomizer.BASIC_AUTH})
 @EnableWebSecurity
 public class MultiAuthConfig {
 
