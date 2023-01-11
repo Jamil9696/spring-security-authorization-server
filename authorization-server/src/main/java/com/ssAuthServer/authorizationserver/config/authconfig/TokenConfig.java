@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +28,14 @@ public class TokenConfig {
   }
 
   @Bean
+  public TokenSettings tokenSettings() {
+
+    return TokenSettings.builder()
+        .accessTokenTimeToLive(Duration.ofMinutes(30L))
+        .build();
+  }
+
+  @Bean
   public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
     return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
   }
@@ -36,15 +45,6 @@ public class TokenConfig {
     RSAKey rsaKey = generateRSAKey();
     JWKSet set = new JWKSet(rsaKey);
     return (j, sc) -> j.select(set);
-  }
-
-  @Bean
-  public org.springframework.security.oauth2.server.authorization.config.TokenSettings tokenSettings() {
-    //@formatter:off
-    return org.springframework.security.oauth2.server.authorization.config.TokenSettings.builder()
-        .accessTokenTimeToLive(Duration.ofMinutes(30L))
-        .build();
-    // @formatter:on
   }
 
   private RSAKey generateRSAKey() {
