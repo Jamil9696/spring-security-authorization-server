@@ -1,6 +1,5 @@
 package com.ssAuthServer.authorizationserver.security.filter;
 
-import com.ssAuthServer.authorizationserver.security.providers.OtpGenerator;
 import com.ssAuthServer.authorizationserver.security.authentications.UsernameOtpAuthentication;
 import com.ssAuthServer.authorizationserver.security.authentications.UsernamePwAuthentication;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ public class MultiAuthenticationFilter extends OncePerRequestFilter {
 
 
   private final AuthenticationManager authenticationManager;
-  private final OtpGenerator otpGenerator;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -23,9 +23,7 @@ public class MultiUsernamePwProvider implements AuthenticationProvider  {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final OtpGenerator otpGenerator;
-
-    @Autowired
-    private OtpRepository otpRepository;
+    private final OtpRepository otpRepository;
 
 
     @Override

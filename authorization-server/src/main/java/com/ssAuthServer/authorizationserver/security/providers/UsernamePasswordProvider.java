@@ -34,7 +34,7 @@ public class UsernamePasswordProvider implements AuthenticationProvider {
 
   private Authentication generateToken(UserDetails user) {
 
-    return  new UsernamePasswordAuthenticationToken(
+    return new UsernamePasswordAuthenticationToken(
         user.getUsername(),
         user.getPassword(),
         user.getAuthorities());

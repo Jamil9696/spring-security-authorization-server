@@ -19,9 +19,7 @@ import java.util.Optional;
 public class MultiOtpProvider implements AuthenticationProvider {
 
   private final CustomUserDetailsService customUserDetailsService;
-
-  @Autowired
-  private OtpRepository otpRepository;
+  private final OtpRepository otpRepository;
 
 
   @Override

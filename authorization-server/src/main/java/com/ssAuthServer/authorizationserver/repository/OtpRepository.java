@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Repository
 public interface OtpRepository extends JpaRepository<Otp,Long> {
 
   @Query("SELECT r.userId from ResourceUser r where r.email = ?1")

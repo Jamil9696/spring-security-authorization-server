@@ -1,9 +1,9 @@
 package com.ssAuthServer.authorizationserver.config.authconfig;
 
 import com.ssAuthServer.authorizationserver.config.customizer.AuthMethodCustomizer;
+import com.ssAuthServer.authorizationserver.repository.OtpRepository;
 import com.ssAuthServer.authorizationserver.security.providers.OtpGenerator;
 import com.ssAuthServer.authorizationserver.security.filter.MultiAuthenticationFilter;
-import com.ssAuthServer.authorizationserver.security.jwt.TokenCustomizer;
 import com.ssAuthServer.authorizationserver.security.manager.CustomAuthManager;
 import com.ssAuthServer.authorizationserver.security.providers.MultiOtpProvider;
 import com.ssAuthServer.authorizationserver.security.providers.MultiUsernamePwProvider;
@@ -11,11 +11,11 @@ import com.ssAuthServer.authorizationserver.security.providers.UsernamePasswordP
 import com.ssAuthServer.authorizationserver.security.userdetails.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,13 +25,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.util.List;
 
 
-@Configuration
 @RequiredArgsConstructor
-@Profile(AuthMethodCustomizer.MULTI_AUTH)
+@Profile({AuthMethodCustomizer.MULTI_AUTH, AuthMethodCustomizer.BASIC_AUTH})
+@EnableWebSecurity
 public class MultiAuthConfig {
 
   private final PasswordEncoder passwordEncoder;
   private final UserDetailsService userDetailsService;
+  private final OtpRepository otpRepository;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,17 +50,16 @@ public class MultiAuthConfig {
         .httpBasic()
         .and()
         .build();
-
   }
 
   @Bean
   public AuthenticationProvider customMultiUsernamePwProvider(){
-    return new MultiUsernamePwProvider((CustomUserDetailsService) userDetailsService, passwordEncoder, otpGenerator());
+    return new MultiUsernamePwProvider((CustomUserDetailsService) userDetailsService, passwordEncoder, otpGenerator(), otpRepository);
   }
 
   @Bean
   public AuthenticationProvider customMultiOtpProvider(){
-    return new MultiOtpProvider((CustomUserDetailsService) userDetailsService);
+    return new MultiOtpProvider((CustomUserDetailsService) userDetailsService, otpRepository);
   }
   @Bean
   public AuthenticationProvider customUsernamePasswordProvider(){
@@ -78,13 +78,7 @@ public class MultiAuthConfig {
 
   @Bean
   public OncePerRequestFilter multiAuthenticationFilter(){
-    return new MultiAuthenticationFilter(customAuthenticationManager(), otpGenerator());
-  }
-
-  @Bean
-  public TokenCustomizer oauth2JwtToken(){
-
-    return new TokenCustomizer();
+    return new MultiAuthenticationFilter(customAuthenticationManager());
   }
 
 }
