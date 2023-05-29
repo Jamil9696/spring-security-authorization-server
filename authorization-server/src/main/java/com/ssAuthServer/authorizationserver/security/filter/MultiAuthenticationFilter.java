@@ -41,8 +41,11 @@ public class MultiAuthenticationFilter extends OncePerRequestFilter {
 
     }else{
       // step 2 validate otp
-      Authentication a = new UsernameOtpAuthentication(email,otp);
-      SecurityContextHolder.getContext().setAuthentication(authenticationManager.authenticate(a));
+      Authentication hasOtp = new UsernameOtpAuthentication(email,otp);
+
+      Authentication isAuthenticated = authenticationManager.authenticate(hasOtp);
+
+      SecurityContextHolder.getContext().setAuthentication(isAuthenticated);
       filterChain.doFilter(request,response);
     }
   }
